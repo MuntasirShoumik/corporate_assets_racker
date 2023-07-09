@@ -32,4 +32,10 @@ class CreateEmployeeForm(forms.ModelForm):
     class Meta:
         model= Employee
         fields = "__all__"
-        
+
+
+
+class CreateDeviceForm(forms.ModelForm):
+    class Meta:
+        model= Device
+        fields = "__all__"

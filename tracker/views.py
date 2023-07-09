@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Company,Employee,Device,DeviceLog
-from .forms import RegistrationForm, LoginForm,CreateEmployeeForm
+from .forms import RegistrationForm, LoginForm,CreateEmployeeForm,CreateDeviceForm
 from django.http import HttpResponseRedirect
 # Create your views here.
 
@@ -68,6 +68,24 @@ def create_employee(request):
         form = CreateEmployeeForm()
 
 
-    return render(request,"tracker/registration.html",{
+    return render(request,"tracker/create_employee.html",{
         "form": form
-    })    
+    }) 
+
+
+def create_device(request):
+    if request.method == "POST":
+        form = CreateDeviceForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+            except:
+                print("cant save!")    
+
+    else:
+        form = CreateDeviceForm()
+
+
+    return render(request,"tracker/create_device.html",{
+        "form": form
+    }) 
