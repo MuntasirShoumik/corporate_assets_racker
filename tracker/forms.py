@@ -49,9 +49,12 @@ class AllocateDeviceForm(forms.ModelForm):
 
     check_out = forms.DateTimeField(initial=datetime.now())
 
-class ReturnDeviceForm(forms.ModelForm):
+class DeallocateDeviceForm(forms.ModelForm):
     class Meta:
         model= DeviceLog
-        exclude = ('check_out','out_condition')
+        fields = "__all__"
 
-    check_in = forms.DateTimeField(initial=datetime.now())      
+    check_in = forms.DateTimeField(initial=datetime.now())
+
+class SearchDeviceForm(forms.Form):
+    sn = forms.IntegerField()          

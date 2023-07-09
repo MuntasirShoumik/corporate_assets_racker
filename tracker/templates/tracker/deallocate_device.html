@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,11 +11,14 @@
    
 </head>
 <body>
-    <ul>
-        {% for entry in device_log %}
-        <li>{{ entry }}</li>
-        {% endfor %}
-    </ul>
+    <form action="" method="post">
+
+        {% csrf_token %}
+        {{form}}
+        
+        <button type="submit" formnovalidate> deallocate </button>
+        
+    </form>
     
 </body>
 </html>

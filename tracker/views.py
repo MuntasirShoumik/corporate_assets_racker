@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from .models import Company,Employee,Device,DeviceLog
-from .forms import RegistrationForm, LoginForm,CreateEmployeeForm,CreateDeviceForm,AllocateDeviceForm
+from .forms import RegistrationForm,SearchDeviceForm,LoginForm,CreateEmployeeForm,CreateDeviceForm,AllocateDeviceForm,DeallocateDeviceForm
 from django.http import HttpResponseRedirect
 from datetime import datetime
-
+from django.forms.models import model_to_dict
 # Create your views here.
 
 def registration(request):
@@ -52,9 +52,9 @@ def login(request):
     }) 
   
 def index(request):
-     employee_list = Employee.objects.all()
+     device_log = DeviceLog.objects.all()
      return render(request,"tracker/index.html",{
-        "employee_list": employee_list,
+        "device_log": device_log,
     }) 
   
 def create_employee(request):
@@ -111,3 +111,37 @@ def allocate_device(request):
     })
 
 
+def search_device(request):
+    device = ""
+    if request.method == "POST":
+        device = Device.objects.get(sn = request.POST['sn'])
+        
+         
+
+    
+        
+    form = SearchDeviceForm()
+
+    return render(request,"tracker/search_device.html",{
+        "form": form,
+        "device":device
+    })
+
+
+def deallocate_device(request,slug):
+    device = Device.objects.get(sn = slug)
+    deviceLog = DeviceLog.objects.get(device=device)
+    form = DeallocateDeviceForm(initial=model_to_dict(deviceLog))
+
+    if request.method == "POST":
+        form = DeallocateDeviceForm(request.POST,instance=deviceLog)
+        if form.is_valid():
+            try:
+                form.save()
+            except:
+                print("cant save!")    
+
+
+    return render(request,"tracker/deallocate_device.html",{
+        "form": form
+    })
