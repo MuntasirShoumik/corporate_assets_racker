@@ -19,6 +19,7 @@ class Device(models.Model):
     category = models.CharField(max_length=50)
     sn = models.IntegerField()
     condition = models.CharField(max_length=50)
+    
 class DeviceLog(models.Model):
     device = models.ForeignKey(Device, on_delete=models.CASCADE)    
     employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)  
