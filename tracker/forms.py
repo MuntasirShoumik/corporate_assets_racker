@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import PasswordInput
-from .models import Company
+from .models import Company,Employee,Device,DeviceLog
 from django.core.validators import *
 import re
 
@@ -26,3 +26,10 @@ class RegistrationForm(forms.ModelForm):
 class LoginForm(forms.Form):
     company_name = forms.CharField()
     password = forms.CharField(widget=PasswordInput())
+
+
+class CreateEmployeeForm(forms.ModelForm):
+    class Meta:
+        model= Employee
+        fields = "__all__"
+        
