@@ -7,6 +7,8 @@ from django.forms.models import model_to_dict
 # Create your views here.
 
 def registration(request):
+
+    
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -24,6 +26,10 @@ def registration(request):
     })    
 
 
+            
+
+    
+
 def login(request):
     error = ""
     if request.method == "POST":
@@ -33,6 +39,8 @@ def login(request):
             try:
                 data = form.cleaned_data
                 if Company.objects.filter(name = data["company_name"],password = data["password"]).exists():
+                    companyName = data['name']
+                    
                     return HttpResponseRedirect("/")
                 else:
                     error = "Wrong User Name Or Password !"
@@ -52,12 +60,17 @@ def login(request):
     }) 
   
 def index(request):
-     device_log = DeviceLog.objects.all()
-     return render(request,"tracker/index.html",{
+    
+    device_log = DeviceLog.objects.all()
+    return render(request,"tracker/index.html",{
         "device_log": device_log,
     }) 
+   
+     
+    
   
 def create_employee(request):
+    
     if request.method == "POST":
         form = CreateEmployeeForm(request.POST)
         if form.is_valid():
@@ -73,9 +86,15 @@ def create_employee(request):
     return render(request,"tracker/create_employee.html",{
         "form": form
     }) 
+         
+   
+
+   
 
 
 def create_device(request):
+
+    
     if request.method == "POST":
         form = CreateDeviceForm(request.POST)
         if form.is_valid():
@@ -91,9 +110,15 @@ def create_device(request):
     return render(request,"tracker/create_device.html",{
         "form": form
     })
+         
+   
+
+    
 
 
 def allocate_device(request):
+
+    
     if request.method == "POST":
         form = AllocateDeviceForm(request.POST)
         if form.is_valid():
@@ -109,9 +134,13 @@ def allocate_device(request):
     return render(request,"tracker/allocate_device.html",{
         "form": form
     })
+   
+
+    
 
 
 def search_device(request):
+
     device = ""
     if request.method == "POST":
         device = Device.objects.get(sn = request.POST['sn'])
@@ -126,9 +155,16 @@ def search_device(request):
         "form": form,
         "device":device
     })
+         
+  
+
+
+   
 
 
 def deallocate_device(request,slug):
+
+  
     device = Device.objects.get(sn = slug)
     deviceLog = DeviceLog.objects.get(device=device)
     form = DeallocateDeviceForm(initial=model_to_dict(deviceLog))
@@ -145,3 +181,6 @@ def deallocate_device(request,slug):
     return render(request,"tracker/deallocate_device.html",{
         "form": form
     })
+         
+    
+  
