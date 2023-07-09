@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from .models import Company,Employee,Device,DeviceLog
-from .forms import RegistrationForm, LoginForm,CreateEmployeeForm,CreateDeviceForm
+from .forms import RegistrationForm, LoginForm,CreateEmployeeForm,CreateDeviceForm,AllocateDeviceForm
 from django.http import HttpResponseRedirect
+from datetime import datetime
+
 # Create your views here.
 
 def registration(request):
@@ -88,4 +90,24 @@ def create_device(request):
 
     return render(request,"tracker/create_device.html",{
         "form": form
-    }) 
+    })
+
+
+def allocate_device(request):
+    if request.method == "POST":
+        form = AllocateDeviceForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+            except:
+                print("cant save!")    
+
+    else:
+        form = AllocateDeviceForm()
+
+
+    return render(request,"tracker/allocate_device.html",{
+        "form": form
+    })
+
+

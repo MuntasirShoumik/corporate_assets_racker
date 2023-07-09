@@ -3,6 +3,7 @@ from django.forms import PasswordInput
 from .models import Company,Employee,Device,DeviceLog
 from django.core.validators import *
 import re
+from datetime import datetime
 
 class RegistrationForm(forms.ModelForm):
     class Meta:
@@ -39,3 +40,18 @@ class CreateDeviceForm(forms.ModelForm):
     class Meta:
         model= Device
         fields = "__all__"
+
+
+class AllocateDeviceForm(forms.ModelForm):
+    class Meta:
+        model= DeviceLog
+        exclude = ('check_in','in_condition')
+
+    check_out = forms.DateTimeField(initial=datetime.now())
+
+class ReturnDeviceForm(forms.ModelForm):
+    class Meta:
+        model= DeviceLog
+        exclude = ('check_out','out_condition')
+
+    check_in = forms.DateTimeField(initial=datetime.now())      

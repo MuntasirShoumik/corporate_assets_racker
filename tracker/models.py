@@ -31,9 +31,9 @@ class Device(models.Model):
 class DeviceLog(models.Model):
     device = models.ForeignKey(Device, on_delete=models.CASCADE)    
     employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)  
-    check_out = models.DateTimeField(auto_now=False, auto_now_add=False)
-    check_in = models.DateTimeField(auto_now=False, auto_now_add=False)
+    check_out = models.DateTimeField(auto_now=False, null=True)
+    check_in = models.DateTimeField(auto_now=False, null=True)
     out_condition = models.CharField(max_length=50)
     in_condition = models.CharField(max_length=50)
     def __str__(self):
-        return self.device   
+        return self.device.model   
